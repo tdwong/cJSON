@@ -36,17 +36,23 @@ static const char *ep;
 
 const char *cJSON_GetErrorPtr(void) {return ep;}
 
-static int cJSON_strcasecmp(const char *s1,const char *s2)
+// 2014-08-13 //static int cJSON_strcasecmp(const char *s1,const char *s2)
+/*extern*/ int cJSON_strcasecmp(const char *s1,const char *s2)
 {
+#ifdef	cJSON_CASE_INSENSITIVE
 	if (!s1) return (s1==s2)?0:1;if (!s2) return 1;
 	for(; tolower(*s1) == tolower(*s2); ++s1, ++s2)	if(*s1 == 0)	return 0;
 	return tolower(*(const unsigned char *)s1) - tolower(*(const unsigned char *)s2);
+#else
+	return strcmp(s1, s2);
+#endif	//cJSON_CASE_INSENSITIVE
 }
 
 static void *(*cJSON_malloc)(size_t sz) = malloc;
 static void (*cJSON_free)(void *ptr) = free;
 
-static char* cJSON_strdup(const char* str)
+// 2014-08-13 //static char* cJSON_strdup(const char* str)
+/*extern*/ char* cJSON_strdup(const char* str)
 {
       size_t len;
       char* copy;
@@ -593,4 +599,20 @@ void cJSON_Minify(char *json)
 		else *into++=*json++;			// All other characters.
 	}
 	*into=0;	// and null-terminate.
+}
+
+// 2014-08-13
+//
+void cJSON_SetStringValue(cJSON *object,const char *str)
+{
+	if (object) {
+		if (object->valuestring) { cJSON_free(object->valuestring); }
+		object->valuestring = cJSON_strdup(str);
+	}
+}
+// 2015-01-06
+//
+char *cJSON_PrintArray(cJSON *item)
+{
+	return print_array(item,0, 1);
 }

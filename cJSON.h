@@ -135,6 +135,19 @@ extern void cJSON_Minify(char *json);
 
 /* When assigning an integer value, it needs to be propagated to valuedouble too. */
 #define cJSON_SetIntValue(object,val)			((object)?(object)->valueint=(object)->valuedouble=(val):(val))
+// 2015-12-18
+#define cJSON_SetFloatValue(object,val)			{if((object)){(object)->valueint=(int)(val);(object)->valuedouble=(val);}}
+
+// 2014-08-13
+//
+extern void cJSON_SetStringValue(cJSON *object,const char *str);
+extern int  cJSON_strcasecmp(const char *s1,const char *s2);
+/// extern void (*cJSON_free)(void *ptr);
+/// extern char* cJSON_strdup(const char* str);
+//
+// 2015-01-06
+//
+extern char *cJSON_PrintArray(cJSON *item);
 
 #ifdef __cplusplus
 }

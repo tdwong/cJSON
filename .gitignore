@@ -1,2 +1,33 @@
+# .gitignore
+
+*.o
+*.a
+*.so
+*.so.*
+tags
+
+#
+*.patch
+*.sw?
+
+# mac os/x
+*.dSYM
+
+# office temporary files
+~$*
+
+#
 .svn
-test
+
+# git related
+.git/
+!.gitignore
+
+# test program binary
+jsonCLI
+
+#
+libcJSON.so
+libcJSON.a
+libcJSON.dylib
+
